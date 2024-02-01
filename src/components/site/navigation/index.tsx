@@ -19,7 +19,7 @@ const Navigation = ({user}:Props) => {
                 height={40}
                 width={40}
             />
-            <span className='text-xl font-bold'> Yweb </span>
+            <span className='text-xl font-bold'> Plura </span>
         </aside>
         <nav className='hidden md:block absolute left-[50%] transform  translate-x-[-50%] translate-y-[-50%]'>
             <ul className='flex items-center gap-8'>
