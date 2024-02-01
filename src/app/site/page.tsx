@@ -35,7 +35,7 @@ export default function Home() {
            
      </section>
 
-    <section className=" flex justify-center items-center flex-col gap-4 md:mt-20 ">
+    <section className=" flex justify-center items-center flex-col gap-4 md:mt-20 mt-[-60px] pt-20 ">
       <h2 className='text-4xl text-center '>Choose what filts you right</h2>
       <p className = 'text-muted-foreground text-center '>
         Our straight forward pricing are tailored to meet 
@@ -44,6 +44,7 @@ export default function Home() {
       <div className="flex justify-center gap-4 flex-wrap mt-6">
         {
           pricingCards.map((card)=>(
+            //wire up free product from stripe
             <Card  
               className={clsx('w-[300px] flex flex-col justify-between',
                 {
