@@ -2,8 +2,7 @@ import {ClerkProvider} from "@clerk/nextjs";
 import type { Metadata } from "next";
 import { DM_Sans } from "next/font/google";
 import "./globals.css";
-import {dark} from "@clerk/themes";
-import Navigation from "@/components/site/navigation";
+
 import { ThemeProvider } from "../providers/theme-provider";
 
 const inter = DM_Sans({ subsets: ["latin"] });
@@ -19,7 +18,6 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider appearance={{baseTheme:dark}}>
         <html lang="en" suppressHydrationWarning>
             <body className={inter.className}>
                 <ThemeProvider
@@ -28,13 +26,9 @@ export default function RootLayout({
                     enableSystem
                     disableTransitionOnChange
                 >
-                    <Navigation/>
-                
                     {children}
-
                 </ThemeProvider>
             </body>
         </html>
-    </ClerkProvider>
   );
 }
