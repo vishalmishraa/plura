@@ -6,11 +6,15 @@ import { useRouter } from 'next/navigation'
 import {zodResolver} from '@hookform/resolvers/zod'
 import { AlertDialog } from '../ui/alert-dialog'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card'
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '../ui/form'
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '../ui/form'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 import FileUpload from '../global/FileUpload'
 import { Input } from '../ui/input'
+import { NumberInput } from '@tremor/react'
+import { saveActivityLogsNotification, updateAgencyDetails } from '@/lib/queries'
+import { Button } from '../ui/button'
+import Loading from '../global/loading'
 
 
 type Props = {
@@ -246,7 +250,35 @@ const AgencyDetails = ({data}: Props) => {
                                 </FormItem>
                                 )}
                             />
-                            
+                            {data?.id && (
+                                <div className='flex flex-col gap-2'>
+                                    <FormLabel>
+                                        Create a Goal
+                                    </FormLabel>
+                                    <FormDescription>
+                                        ✨ Create a goal for your agency. As your business grows
+                                        your goals grow too so dont forget to set the bar higher!
+                                    </FormDescription>
+                                    <NumberInput
+                                        defaultValue={data?.goal}
+                                        onValueChange = {async (val)=>{
+                                            if (!data?.id) return
+                                            await updateAgencyDetails(data.id, { goal: val })
+                                            await saveActivityLogsNotification({
+                                            agencyId: data.id,
+                                            description: `Updated the agency goal to | ${val} Sub Account`,
+                                            subaccountId: undefined,
+                                            })
+                                            router.refresh()
+                                        }}
+                                        min = {1}
+                                        className='bg-background !border !border-input'
+                                        placeholder='Sub Account Goal'
+                                    
+                                    />
+                                </div>
+                            )}
+                           
                         </form>
                     </Form>
                 </CardContent>
