@@ -4,6 +4,7 @@ import { redirect} from 'next/navigation';
 import { getAuthUserDetails , verifyAndAcceptInvitation } from '@/lib/queries';
 import { Plan } from '@prisma/client';
 import AgencyDetails from '@/components/forms/AgencyDetails';
+import Navigation from '@/components/site/navigation';
 
 /**
  * Renders the AgencyPage component.
@@ -45,6 +46,8 @@ const AgencyPage = async({searchParams}:{searchParams : {plan: Plan ; state:stri
 const authUser = await currentUser();
 
   return (
+    <div>
+    <Navigation/>
     <div className='flex justify-center items-center mt-4'>
         <div className="max-w-[850px] border-[1px] p-4 rounded-xl">
             <h1 className='text-4xl'>
@@ -54,6 +57,7 @@ const authUser = await currentUser();
           data={{ companyEmail: authUser?.emailAddresses[0].emailAddress }}
         />
         </div>
+    </div>
     </div>
   )
 }

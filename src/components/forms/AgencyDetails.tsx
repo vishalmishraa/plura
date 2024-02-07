@@ -6,9 +6,11 @@ import { useRouter } from 'next/navigation'
 import {zodResolver} from '@hookform/resolvers/zod'
 import { AlertDialog } from '../ui/alert-dialog'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card'
-import { Form, FormControl, FormField, FormItem, FormLabel } from '../ui/form'
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '../ui/form'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
+import FileUpload from '../global/FileUpload'
+import { Input } from '../ui/input'
 
 
 type Props = {
@@ -29,7 +31,7 @@ const FormSchema = z.object({
     agencyLogo: z.string().min(1),
   })
 
-
+const handleSubmit = (data: any) => {};
 
 
 
@@ -64,9 +66,7 @@ const AgencyDetails = ({data}: Props) => {
     },[data]);// eslint-disable-line
 
   return (
-    <>
-        {/* the alert dialer will be used when user delete the agency it will 
-            give a warning like : Are you sure? */}
+    
         <AlertDialog>
             <Card className='w-full'>
                 <CardHeader>
@@ -92,20 +92,25 @@ const AgencyDetails = ({data}: Props) => {
                                         <FormLabel>
                                             Agency Logo
                                         </FormLabel>
-                                        
+                                        <FormControl>
+                                            <FileUpload
+                                                apiEndpoint='agencyLogo'
+                                                onChange={field.onChange}
+                                                value={field.value}
+                                            
+                                            ></FileUpload>
+                                        </FormControl>
+                                        <FormMessage/>
                                     </FormItem>
                                 )}
-                            >
-
-                            </FormField>
-
-
+                            />
+                            
                         </form>
                     </Form>
                 </CardContent>
             </Card>
         </AlertDialog>
-    </>
+    
   )
 }
 
