@@ -62,7 +62,8 @@ model User {
   Ticket       Ticket[]
   Notification Notification[]
 
-  @@index([agencyId])
+  @@index([agencyId]) // we use @@index because we want to search by agencyId , and @@index will make it more optimized
+  
 }
 
 model Permissions {
@@ -199,7 +200,7 @@ model Ticket {
 enum TriggerTypes {
   CONTACT_FORM
 }
-
+  
 model Trigger {
   id           String       @id @default(uuid())
   name         String
