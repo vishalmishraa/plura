@@ -101,7 +101,7 @@ const AgencyDetails = ({data}: Props) => {
             //WIP coustId
             newUserData  = await initUser({role:'AGENCY_OWNER'});
             if(!data?.id) {
-                const response  = await upsertAgency({
+                await upsertAgency({
                     id: data?.id ? data.id : v4(),//The v4() is a part of uuid library is used to generate universally unique identifiers (UUIDs). 
                     address: values.address,
                     agencyLogo: values.agencyLogo,
@@ -122,7 +122,7 @@ const AgencyDetails = ({data}: Props) => {
                     title: 'Created Agency',
                   });
                 //if user created a agency successfully the n
-                if (data?.id) return router.refresh()
+                 return router.refresh()
                 
             }
         } catch (error) {
