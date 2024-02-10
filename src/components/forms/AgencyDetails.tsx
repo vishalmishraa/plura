@@ -12,9 +12,10 @@ import * as z from 'zod'
 import FileUpload from '../global/FileUpload'
 import { Input } from '../ui/input'
 import { NumberInput } from '@tremor/react'
-import { deleteAgency, saveActivityLogsNotification, updateAgencyDetails } from '@/lib/queries'
+import { deleteAgency, initUser, saveActivityLogsNotification, updateAgencyDetails, upsertAgency } from '@/lib/queries'
 import { Button } from '../ui/button'
 import Loading from '../global/loading'
+import { v4 } from 'uuid'
 
 
 type Props = {
@@ -69,7 +70,69 @@ const AgencyDetails = ({data}: Props) => {
         }
     },[data]);// eslint-disable-line
 
-    const handleSubmit = (data: any) => {};
+    const handleSubmit = async(values: z.infer<typeof FormSchema>) => {
+        try {
+            let newUserData
+            let custId
+            if (!data?.id) {
+              const bodyData = {
+                email: values.companyEmail,
+                name: values.name,
+                shipping: {
+                  address: {
+                    city: values.city,
+                    country: values.country,
+                    line1: values.address,
+                    postal_code: values.zipCode,
+                    state: values.zipCode,
+                  },
+                  name: values.name,
+                },
+                address: {
+                  city: values.city,
+                  country: values.country,
+                  line1: values.address,
+                  postal_code: values.zipCode,
+                  state: values.zipCode,
+                },
+              }
+            }
+            //WIP coustId
+            newUserData  = await initUser({role:'AGENCY_OWNER'});
+            if(!data?.id) {
+                const response  = await upsertAgency({
+                    id: data?.id ? data.id : v4(),//The v4() is a part of uuid library is used to generate universally unique identifiers (UUIDs). 
+                    address: values.address,
+                    agencyLogo: values.agencyLogo,
+                    city: values.city,
+                    companyPhone: values.companyPhone,
+                    country: values.country,
+                    name: values.name,
+                    state: values.state,
+                    whiteLabel: values.whiteLabel,
+                    zipCode: values.zipCode,
+                    createdAt: new Date(),
+                    updatedAt: new Date(),
+                    companyEmail: values.companyEmail,
+                    connectAccountId: '',
+                    goal: 5,
+                  });
+                  toast({
+                    title: 'Created Agency',
+                  });
+                //if user created a agency successfully the n
+                if (data?.id) return router.refresh()
+                
+            }
+        } catch (error) {
+			console.log(error);
+            toast({
+                variant: 'destructive',
+                title: 'Oppse!',
+                description: 'Failed to Create your agency. Please try again.'
+              });
+        }
+    };
     
     const handleDeleteAgency = async(data: any) => {
         if(!data?.id) return;
