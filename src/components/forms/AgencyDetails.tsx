@@ -16,6 +16,7 @@ import { deleteAgency, initUser, saveActivityLogsNotification, updateAgencyDetai
 import { Button } from '../ui/button'
 import Loading from '../global/loading'
 import { v4 } from 'uuid'
+import { Switch } from '../ui/switch'
 
 
 type Props = {
@@ -250,6 +251,33 @@ const AgencyDetails = ({data}: Props) => {
                                 )}
                                 />
                             </div>
+
+                            <FormField
+                                disabled={isLoading}
+                                control={form.control}
+                                name="whiteLabel"
+                                render={({ field }) => {
+                                            return (
+                                                    <FormItem className="flex flex-row items-center justify-between rounded-lg border gap-4 p-4">
+                                                        <div>
+                                                            <FormLabel>Whitelabel Agency</FormLabel>
+                                                                <FormDescription>
+                                                                 Turning on whilelabel mode will show your agency logo
+                                                                 to all sub accounts by default. You can overwrite this
+                                                                 functionality through sub account settings.
+                                                                </FormDescription>
+                                                        </div>
+                                                        <FormControl>
+                                                            <Switch
+                                                                checked={field.value}
+                                                                onCheckedChange={field.onChange}
+                                                        />
+                                                        </FormControl>
+                                                    </FormItem>
+                                            )
+                                }}
+                            />
+
                             <FormField
                                 disabled={isLoading}
                                 control={form.control}
